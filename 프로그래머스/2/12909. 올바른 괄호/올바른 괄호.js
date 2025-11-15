@@ -1,16 +1,19 @@
-function solution(s){
+function solution(s) {
   const stack = [];
 
-  for (const char of s) {
+  s.split('').forEach((char) => {
     if (char === '(') {
       stack.push(char);
-    } else {
-      if (stack.length === 0) {
-        return false;
-      }
-      stack.pop();
     }
-  }
-    
-  return !!!stack.length;
+
+    if (char === ')') {
+      if (stack[stack.length - 1] === '(') {
+        stack.pop();
+      } else {
+        stack.push(char);
+      }
+    }
+  });
+
+  return stack.length === 0;
 }
