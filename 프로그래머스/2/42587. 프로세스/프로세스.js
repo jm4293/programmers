@@ -1,20 +1,17 @@
 function solution(priorities, location) {
-  const queue = priorities.map((priority, index) => ({ priority, index }));
-  let executionOrder = 0;
+  const queue = priorities.map((priority, index) => ({ priority, location: index }));
 
-  while (queue.length > 0) {
+  const result = [];
+
+  while (queue.length) {
     const current = queue.shift();
 
     if (queue.some((item) => item.priority > current.priority)) {
       queue.push(current);
     } else {
-      executionOrder++;
-
-      if (current.index === location) {
-        break;
-      }
+      result.push(current);
     }
   }
 
-  return executionOrder;
+  return result.findIndex((item) => item.location === location) + 1;
 }
