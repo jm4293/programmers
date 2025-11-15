@@ -1,11 +1,11 @@
 function solution(arr) {
-    let answer = [];
+  const result = [];
 
-    for(let i=0; i<arr.length; i++){
-        if(arr[i] !== arr[i+1]){
-            answer.push(arr[i]);
-        }
+  return arr.reduce((acc, cur, idx, arr) => {
+    if (idx === 0 || cur !== arr[idx - 1]) {
+      acc.push(cur);
     }
 
-    return answer;
+    return acc;
+  }, []);
 }
