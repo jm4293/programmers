@@ -1,13 +1,11 @@
 function solution(citations) {
-  citations.sort((a, b) => b - a);
+  const sorted = citations.sort((a, b) => b - a);
 
-  let hIndex = 0;
-
-  citations.forEach((citation, index) => {
-    if (citation >= index + 1) {
-      hIndex = index + 1;
+  for (let i = 0; i < sorted.length; i++) {
+    if (sorted[i] <= i) {
+      return i;
     }
-  });
+  }
 
-  return hIndex;
+  return sorted.length;
 }
