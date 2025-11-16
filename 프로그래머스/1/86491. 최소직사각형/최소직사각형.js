@@ -1,16 +1,12 @@
 function solution(sizes) {
-  const sorted = sizes.map((size) => {
-    const [w, h] = size;
+  const { maxW, maxH } = sizes.reduce((acc, [w, h]) => {
+    const big = Math.max(w, h);
+    const small = Math.min(w, h);
+    return {
+      maxW: Math.max(acc.maxW, big),
+      maxH: Math.max(acc.maxH, small),
+    };
+  }, { maxW: 0, maxH: 0 });
 
-    if (w < h) {
-      return [h, w];
-    }
-
-    return [w, h];
-  });
-
-  const maxWidth = Math.max(...sorted.map((size) => size[0]));
-  const maxHeight = Math.max(...sorted.map((size) => size[1]));
-
-  return maxWidth * maxHeight;
+  return maxW * maxH;
 }
