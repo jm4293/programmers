@@ -1,21 +1,18 @@
 function solution(n, times) {
-  let left = 1;
-
+  let left = 0;
   let right = Math.max(...times) * n;
-
   let answer = right;
 
   while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
+    let mid = Math.floor((left + right) / 2);
+    let count = 0;
 
-    let people = 0;
-
-    for (const time of times) {
-      people += Math.floor(mid / time);
+    for (let time of times) {
+      count += Math.floor(mid / time);
     }
 
-    if (people >= n) {
-      answer = Math.min(answer, mid);
+    if (count >= n) {
+      answer = mid;
       right = mid - 1;
     } else {
       left = mid + 1;
