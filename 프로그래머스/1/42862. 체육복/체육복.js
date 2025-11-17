@@ -1,30 +1,31 @@
 function solution(n, lost, reserve) {
-  const lostSet = new Set(lost);
-  const reserveSet = new Set(reserve);
+  const students = Array.from({ length: n }, (_, i) => {
+    const studentId = i + 1;
+    const isLost = lost.includes(studentId);
+    const isReserve = reserve.includes(studentId);
+    
+    // 중복 처리: 둘 다 있으면 자기 자신이 사용 (둘 다 false)
+    return {
+      id: studentId,
+      lost: isLost && !isReserve,
+      reserve: isReserve && !isLost,
+    };
+  });
 
-  for (const student of lostSet) {
-    if (reserveSet.has(student)) {
-      lostSet.delete(student);
-      reserveSet.delete(student);
+  for (let i = 0; i < students.length; i++) {
+    if (students[i].lost) {
+      // 앞번호(-1) 우선 확인 (그리디 전략)
+      if (i > 0 && students[i - 1].reserve) {
+        students[i - 1].reserve = false;
+        students[i].lost = false;
+      } 
+      // 뒷번호(+1) 확인
+      else if (i + 1 < students.length && students[i + 1].reserve) {
+        students[i + 1].reserve = false;
+        students[i].lost = false;
+      }
     }
   }
 
-  const lostArr = Array.from(lostSet).sort((a, b) => a - b);
-  const reserveArr = Array.from(reserveSet).sort((a, b) => a - b);
-
-  for (let i = 0; i < lostArr.length; i++) {
-    const student = lostArr[i];
-
-    if (reserveArr.includes(student - 1)) {
-      reserveArr.splice(reserveArr.indexOf(student - 1), 1);
-      lostArr.splice(i, 1);
-      i--;
-    } else if (reserveArr.includes(student + 1)) {
-      reserveArr.splice(reserveArr.indexOf(student + 1), 1);
-      lostArr.splice(i, 1);
-      i--;
-    }
-  }
-
-  return n - lostArr.length;
+  return students.filter((student) => !student.lost).length;
 }
