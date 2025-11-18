@@ -26,9 +26,9 @@ function solution(n, edge) {
       if (!visited[neighbor]) {
         visited[neighbor] = true;
         distance[neighbor] = distance[current] + 1;
+        maxDistance = Math.max(maxDistance, distance[neighbor]);
         queue.push(neighbor);
       }
-      maxDistance = Math.max(maxDistance, distance[neighbor]);
     });
   }
 
