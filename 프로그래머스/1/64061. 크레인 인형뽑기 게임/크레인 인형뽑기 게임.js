@@ -1,24 +1,23 @@
 function solution(board, moves) {
-  const boardLength = board[0].length;
-  let bucket = [];
-  let count = 0;
+  let answer = 0;
+  let stack = [];
 
-  moves.map((element, index) => {
-    for (let i = 0; i < boardLength; i++) {
-      if (board[i][element - 1] !== 0) {
-        bucket.push(board[i][element - 1]);
-        board[i][element - 1] = 0;
+  for (let move of moves) {
+    for (let i = 0; i < board.length; i++) {
+      if (board[i][move - 1] !== 0) {
+        let doll = board[i][move - 1];
+        board[i][move - 1] = 0;
+
+        if (stack.length > 0 && stack[stack.length - 1] === doll) {
+          stack.pop();
+          answer += 2;
+        } else {
+          stack.push(doll);
+        }
         break;
       }
     }
+  }
 
-
-    if (bucket[bucket.length - 2] === bucket[bucket.length - 1] && bucket[bucket.length - 2] !== undefined && bucket[bucket.length - 1] !== undefined)
-    {
-      bucket.splice(bucket.length - 2, 2);
-      count += 1;
-    }
-  });
-
- return count * 2;
+  return answer;
 }
