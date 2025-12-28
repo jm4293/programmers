@@ -16,12 +16,12 @@ function solution(genres, plays) {
 
   const sortedGenres = Array.from(map.entries()).sort((a, b) => b[1].totalPlayCount - a[1].totalPlayCount);
 
-  const result = [];
+  const answer = [];
 
   sortedGenres.forEach(([genre, data]) => {
     const sortedSongs = data.songs.sort((a, b) => b.playCount - a.playCount);
-    result.push(...sortedSongs.slice(0, 2).map((song) => song.index));
+    answer.push(...sortedSongs.slice(0, 2).map((song) => song.index));
   });
 
-  return result;
+  return answer;
 }
