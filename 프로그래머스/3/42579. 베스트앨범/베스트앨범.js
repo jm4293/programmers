@@ -14,7 +14,7 @@ function solution(genres, plays) {
     });
   });
 
-  const sortedGenres = Array.from(map.entries()).sort((a, b) => b[1].totalPlayCount - a[1].totalPlayCount);
+  const sortedGenres = [...map].sort((a, b) => b[1].totalPlayCount - a[1].totalPlayCount);
 
   const answer = [];
 
