@@ -1,4 +1,5 @@
 function solution(nums) {
-  const numsSet = new Set(nums);
-  return Math.min(numsSet.size, nums.length / 2);
+    const numSet = new Set(nums);
+    const maxTypes = nums.length / 2;
+    return Math.min(numSet.size, maxTypes);
 }
