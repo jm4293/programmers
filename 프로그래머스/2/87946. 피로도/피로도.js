@@ -1,29 +1,19 @@
 function solution(k, dungeons) {
-  const visited = Array.from({ length: dungeons.length }, () => false);
-  let result = 0;
+  let maxCount = 0;
+  const visited = Array(dungeons.length).fill(false);
 
   function dfs(currentK, count) {
-    if (count > result) {
-      result = count;
-    }
+    maxCount = Math.max(maxCount, count);
 
     for (let i = 0; i < dungeons.length; i++) {
-      const [need, cost] = dungeons[i];
-
-      if (visited[i]) {
-        continue;
+      if (!visited[i] && currentK >= dungeons[i][0]) {
+        visited[i] = true;
+        dfs(currentK - dungeons[i][1], count + 1);
+        visited[i] = false;
       }
-
-      if (currentK < need) {
-        continue;
-      }
-
-      visited[i] = true;
-      dfs(currentK - cost, count + 1);
-      visited[i] = false;
     }
   }
 
   dfs(k, 0);
-  return result;
+  return maxCount;
 }
