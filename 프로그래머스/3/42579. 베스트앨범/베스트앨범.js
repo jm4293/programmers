@@ -3,23 +3,28 @@ function solution(genres, plays) {
 
   genres.forEach((genre, index) => {
     map.set(genre, {
-      totalPlayCount: (map.get(genre)?.totalPlayCount || 0) + plays[index],
+      totalPlays: (map.get(genre)?.totalPlays || 0) + plays[index],
       songs: [
         ...(map.get(genre)?.songs || []),
         {
           index,
-          playCount: plays[index],
+          count: plays[index],
+          name: genre,
         },
       ],
     });
   });
 
-  const sortedGenres = [...map].sort((a, b) => b[1].totalPlayCount - a[1].totalPlayCount);
+  console.log("map:", map);
+
+  const sortedGenres = [...map].sort(
+    (a, b) => b[1].totalPlays - a[1].totalPlays,
+  );
 
   const answer = [];
 
   sortedGenres.forEach(([genre, data]) => {
-    const sortedSongs = data.songs.sort((a, b) => b.playCount - a.playCount);
+    const sortedSongs = data.songs.sort((a, b) => b.count - a.count);
     answer.push(...sortedSongs.slice(0, 2).map((song) => song.index));
   });
 
