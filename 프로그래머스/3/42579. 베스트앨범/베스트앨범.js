@@ -15,8 +15,6 @@ function solution(genres, plays) {
     });
   });
 
-  console.log("map:", map);
-
   const sortedGenres = [...map].sort(
     (a, b) => b[1].totalPlays - a[1].totalPlays,
   );
