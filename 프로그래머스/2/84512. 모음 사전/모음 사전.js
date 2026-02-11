@@ -11,6 +11,6 @@ function solution(word) {
   }
 
   generateWords("");
-  wordList.sort();
+
   return wordList.indexOf(word) + 1;
 }
