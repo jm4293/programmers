@@ -1,16 +1,12 @@
 function solution(brown, yellow) {
   const total = brown + yellow;
 
-  for (let i = 1; i <= total; i++) {
-    if (total % i === 0) {
-      const width = total / i;
-      const height = i;
-
-      if (yellow === (width - 2) * (height - 2)) {
+  for (let width = 3; width <= total; width++) {
+    if (total % width === 0) {
+      const height = total / width;
+      if (width >= height && (width - 2) * (height - 2) === yellow) {
         return [width, height];
       }
     }
   }
-
-  return [];
 }
