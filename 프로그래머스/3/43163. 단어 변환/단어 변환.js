@@ -1,11 +1,6 @@
 function solution(begin, target, words) {
-  let answer = 0;
-  const visited = new Array(words.length).fill(false);
-  let found = false;
-
   function isOneLetterDiff(word1, word2) {
     let diffCount = 0;
-
     for (let i = 0; i < word1.length; i++) {
       if (word1[i] !== word2[i]) {
         diffCount++;
@@ -19,22 +14,24 @@ function solution(begin, target, words) {
     return diffCount === 1;
   }
 
-  function dfs(currentWord, depth) {
+  const visited = new Array(words.length).fill(false);
+  const queue = [[begin, 0]];
+  let index = 0;
+
+  while (index < queue.length) {
+    const [currentWord, depth] = queue[index++];
+
     if (currentWord === target) {
-      answer = depth;
-      found = true;
-      return;
+      return depth;
     }
 
     for (let i = 0; i < words.length; i++) {
       if (!visited[i] && isOneLetterDiff(currentWord, words[i])) {
         visited[i] = true;
-        dfs(words[i], depth + 1);
-        visited[i] = false;
+        queue.push([words[i], depth + 1]);
       }
     }
   }
 
-  dfs(begin, 0);
-  return found ? answer : 0;
+  return 0;
 }
