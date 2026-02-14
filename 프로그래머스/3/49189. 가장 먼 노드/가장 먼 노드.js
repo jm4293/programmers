@@ -1,36 +1,29 @@
-function solution(n, edge) {
-  const graph = new Map();
+function solution(n, vertex) {
+  const graph = Array.from({ length: n + 1 }, () => []);
+  const visited = Array(n + 1).fill(false);
+  const distance = Array(n + 1).fill(0);
 
-  edge.forEach(([a, b]) => {
-    if (!graph.has(a)) {
-      graph.set(a, []);
-    }
-    if (!graph.has(b)) {
-      graph.set(b, []);
-    }
+  for (const [a, b] of vertex) {
+    graph[a].push(b);
+    graph[b].push(a);
+  }
 
-    graph.get(a).push(b);
-    graph.get(b).push(a);
-  });
-
-  const visited = new Array(n + 1).fill(false);
-  const distance = new Array(n + 1).fill(0);
-  let maxDistance = 0;
   const queue = [1];
   visited[1] = true;
-  distance[1] = 0;
+  let front = 0;
 
-  while (queue.length > 0) {
-    const current = queue.shift();
-    graph.get(current).forEach((neighbor) => {
+  while (front < queue.length) {
+    const current = queue[front++];
+
+    for (const neighbor of graph[current]) {
       if (!visited[neighbor]) {
         visited[neighbor] = true;
         distance[neighbor] = distance[current] + 1;
-        maxDistance = Math.max(maxDistance, distance[neighbor]);
         queue.push(neighbor);
       }
-    });
+    }
   }
 
-  return distance.filter((dist) => dist === maxDistance).length;
+  const maxDistance = Math.max(...distance);
+  return distance.filter((d) => d === maxDistance).length;
 }
