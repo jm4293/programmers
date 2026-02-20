@@ -1,25 +1,16 @@
 function solution(s, skip, index) {
+  let answer = "";
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const skipSet = new Set(skip);
-  const aCharCode = 'a'.charCodeAt(0);
+  const filteredAlphabet = alphabet
+    .split("")
+    .filter((char) => !skipSet.has(char));
 
-  let result = '';
-
-  for (const char of s) {
-    let count = 0;
-    let code = char.charCodeAt(0);
-
-    while (count < index) {
-      code += 1;
-      if (code > 'z'.charCodeAt(0)) {
-        code = aCharCode; 
-      }
-
-      if (!skipSet.has(String.fromCharCode(code))) {
-        count += 1;
-      }
-    }
-    result += String.fromCharCode(code);
+  for (let char of s) {
+    let currentIndex = filteredAlphabet.indexOf(char);
+    let newIndex = (currentIndex + index) % filteredAlphabet.length;
+    answer += filteredAlphabet[newIndex];
   }
 
-  return result;
+  return answer;
 }
