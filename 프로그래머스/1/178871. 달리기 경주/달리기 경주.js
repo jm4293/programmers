@@ -1,24 +1,21 @@
 function solution(players, callings) {
-  const playerMap = new Map(players.map((player, index) => [player, index]));
+  const rank = new Map();
+  const name = new Map();
 
-  callings.reduce((acc, cur) => {
-    const currentIndex = playerMap.get(cur);
+  players.forEach((p, i) => {
+    rank.set(p, i);
+    name.set(i, p);
+  });
 
-    if (currentIndex > 0) {
-      const prevIndex = currentIndex - 1;
-      const prevPlayer = acc[prevIndex];
+  for (const caller of callings) {
+    const r = rank.get(caller);
+    const front = name.get(r - 1);
 
-      // 위치 교환
-      acc[prevIndex] = cur;
-      acc[currentIndex] = prevPlayer;
+    rank.set(caller, r - 1);
+    rank.set(front, r);
+    name.set(r - 1, caller);
+    name.set(r, front);
+  }
 
-      // Map 업데이트
-      playerMap.set(cur, prevIndex);
-      playerMap.set(prevPlayer, currentIndex);
-    }
-
-    return acc;
-  }, players);
-
-  return players;
+  return Array.from({ length: players.length }, (_, i) => name.get(i));
 }
