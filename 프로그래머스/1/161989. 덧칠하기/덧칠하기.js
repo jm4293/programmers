@@ -1,18 +1,13 @@
 function solution(n, m, section) {
-  const wallArr = Array.from({ length: n }, (_, idx) => {
-    return section.includes(idx + 1) ? 1 : 0;
-  });
+  let count = 0;
+  let end = 0;
 
-  let total = 0;
-
-  for (let i = 0; i < n; i++) {
-    if (wallArr[i] === 0) {
-      continue;
+  for (const s of section) {
+    if (s > end) {
+      count++;
+      end = s + m - 1;
     }
-
-    total++;
-    i += m - 1;
   }
 
-  return total;
+  return count;
 }
