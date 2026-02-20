@@ -8,11 +8,10 @@ function solution(bandage, health, attacks) {
     const seconds = time - prevTime - 1;
 
     if (seconds > 0) {
-      const cycles = Math.floor((combo + seconds) / t);
-      const remain = (combo + seconds) % t;
+      const cycles = Math.floor(seconds / t);
+      const remain = seconds % t;
       hp += seconds * x + cycles * y;
       hp = Math.min(hp, health);
-      combo = remain;
     }
 
     hp -= damage;
@@ -21,7 +20,6 @@ function solution(bandage, health, attacks) {
       return -1;
     }
 
-    combo = 0;
     prevTime = time;
   }
 
