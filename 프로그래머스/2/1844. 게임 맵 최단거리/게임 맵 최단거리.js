@@ -2,38 +2,34 @@ function solution(maps) {
   const n = maps.length;
   const m = maps[0].length;
 
-  const directions = [
-    [-1, 0],
-    [1, 0],
-    [0, 1],
-    [0, -1],
-  ];
+  const dx = [-1, 1, 0, 0];
+  const dy = [0, 0, -1, 1];
+
+  const visited = Array.from({ length: n }, () => Array(m).fill(false));
 
   const queue = [[0, 0, 1]];
-  let front = 0;
+  visited[0][0] = true;
 
-  maps[0][0] = 2;
+  while (queue.length > 0) {
+    const [x, y, dist] = queue.shift();
 
-  while (front < queue.length) {
-    const [row, col, distance] = queue[front++];
-
-    if (row === n - 1 && col === m - 1) {
-      return distance;
+    if (x === n - 1 && y === m - 1) {
+      return dist;
     }
-
-    for (const [dr, dc] of directions) {
-      const newRow = row + dr;
-      const newCol = col + dc;
+    for (let i = 0; i < 4; i++) {
+      const nx = x + dx[i];
+      const ny = y + dy[i];
 
       if (
-        newRow >= 0 &&
-        newRow < n &&
-        newCol >= 0 &&
-        newCol < m &&
-        maps[newRow][newCol] === 1
+        nx >= 0 &&
+        nx < n &&
+        ny >= 0 &&
+        ny < m &&
+        maps[nx][ny] === 1 &&
+        !visited[nx][ny]
       ) {
-        maps[newRow][newCol] = 2;
-        queue.push([newRow, newCol, distance + 1]);
+        visited[nx][ny] = true;
+        queue.push([nx, ny, dist + 1]);
       }
     }
   }
